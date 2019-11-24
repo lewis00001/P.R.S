@@ -61,7 +61,6 @@ h3 {
 }
 
 .btn {
-    color: white;
     font-weight: bolder;
     padding: 5px;
     width: 75px;
@@ -69,6 +68,18 @@ h3 {
     background-color: chartreuse;
     text-align: center;
     cursor: pointer;
+    letter-spacing: 1.4px;
+    float: left;
+    display: flex;
+}
+
+.btn-o {
+    font-weight: bolder;
+    padding: 5px;
+    width: 75px;
+    color: black;
+    background-color: #444;
+    text-align: center;
     letter-spacing: 1.4px;
     float: left;
     display: flex;
@@ -181,5 +192,10 @@ h3 {
 }
 
 .intro-title {
+    font-weight: 900;
+}
+
+.left-status,
+.right-status {
     font-weight: 900;
 }

@@ -17,15 +17,44 @@ let db = firebase.database();
 
 $(document).ready(function () {
 
-    // grabs data - listens for changes to data
+    // grabs chat data - listens for changes to data
     db.ref("chat/").on("child_added", function (snapshot) {
         let dataOutput = "<div class='return'><hr>" +
-            "<p class='name' style='color:" + snapshot.child("uColor").val() + "'>" + 
-                snapshot.child("name").val() + "</p>" +
-            "<p class='message' style='color:" + snapshot.child("tColor").val() + "'>" + 
-                snapshot.child("message").val() + "</p>" +
+            "<p class='name' style='color:" + snapshot.child("uColor").val() + "'>" +
+            snapshot.child("name").val() + "</p>" +
+            "<p class='message' style='color:" + snapshot.child("tColor").val() + "'>" +
+            snapshot.child("message").val() + "</p>" +
             "</div>";
         $(".chat-output").html($(".chat-output").html() + dataOutput);
+    });
+
+    // grabs player slot status data - updates screen
+    db.ref("playerSlotLeft/isTaken").on("value", function (snapshot) {
+        if (snapshot.val() === true) {
+            $(".left-username-input").prop("disabled", true);
+            $(".left-status").text("Occupied");
+            $(".left-username-button").removeClass("btn").addClass("btn-o");
+            $(".left-username-button").text("-----");
+        } else {
+            $(".left-username-input").prop("disabled", false);
+            $(".left-status").text("slot-open");
+            $(".left-username-button").removeClass("btn-o").addClass("btn");
+            $(".left-username-button").text("Submit");
+        }
+    });
+    // grabs player slot status data - updates screen
+    db.ref("playerSlotRight/isTaken").on("value", function (snapshot) {
+        if (snapshot.val() === true) {
+            $(".right-username-input").prop("disabled", true);
+            $(".right-status").text("Occupied");
+            $(".right-username-button").removeClass("btn").addClass("btn-o");
+            $(".right-username-button").text("-----");
+        } else {
+            $(".right-username-input").prop("disabled", false);
+            $(".right-status").text("slot-open");
+            $(".right-username-button").removeClass("btn-o").addClass("btn");
+            $(".right-username-button").text("Submit");
+        }
     });
 
     let username = "";
