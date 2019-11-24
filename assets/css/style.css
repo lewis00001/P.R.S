@@ -106,7 +106,6 @@ h3 {
 .t-color {
     width: 16px;
     height: 16px;
-    background-color: darkorange;
     display: flex;
     justify-content: space-evenly;
     margin: 0 4px 0 4px;
@@ -165,6 +164,22 @@ h3 {
 }
 
 .slot {
-    min-height: 120px;
-    margin-bottom: 20px;
+    min-height: 100px;
+    margin-top: 20px;
+}
+
+.slot-status {
+    color: mediumturquoise;
+    float: left;
+    padding: 5px;
+}
+
+.intro {
+    margin-top: 15px;
+    line-height: 115%;
+    color: mediumturquoise;
+}
+
+.intro-title {
+    font-weight: 900;
 }
