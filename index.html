@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>P.R.S.Chat</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="assets/images/favicon/favicon-16x16.png">
+    <link rel="stylesheet" type="text/css" href="assets/css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+</head>
+
+<body>
+
+    <div class="main">
+        <h1 class="main-title">Paper :: Rock :: Scissors</h1>
+        <hr>
+        <div class="container-1 screen unhide">
+            <!-- username setup -->
+            <h3 class="name-enter-prompt">Enter your username below:</h3>
+            <input class="username-input" placeholder="username"></input>
+            <div class="username-button btn">Submit</div>
+        </div>
+        <div class="container-2 screen hide">
+
+            <!-- ----- battle area ----- -->
+            <div class="battle-stats isFlex">
+                <div class="wins-left">Wins:</div>
+                <div class="total-battles">Total Games:</div>
+                <div class="wins-right">Wins:</div>
+            </div>
+
+            <div class="battle-area">
+                <div class="player-left">
+                    <div class="player-left-title"></div>
+                    <div class="prc">
+                        <div class="prc-choices">
+                            <div class="prc-image"></div>
+                            <div class="prc-image"></div>
+                            <div class="prc-image"></div>
+                        </div>
+                        <div class="prc-queue"></div>
+                    </div>
+                </div>
+                <div class="battle-ground">
+                    <div class="battle-title"></div>
+                    <div class="prc-battle-div">
+                        <div class="b-right"></div>
+                        <div class="b-left"></div>
+                    </div>
+                </div>
+                <div class="player-right">
+                    <div class="player-right-title"></div>
+                    <div class="prc">
+                        <div class="prc-choices">
+                            <div class="prc-image"></div>
+                            <div class="prc-image"></div>
+                            <div class="prc-image"></div>
+                        </div>
+                        <div class="prc-queue"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- ----- ----------- ----- -->
+
+            <!-- chats appear here -->
+            <h3>Community Chat</h3>
+            <div class="chat-div">
+                <div class="chat-output"></div>
+            </div>
+            <!-- chats entered here -->
+            <div class="chat-enter">
+                <input class="chat-input" placeholder="chat"></input>
+                <div class="options">
+                    <div class="enter-chat-button btn">Submit</div>
+                    <div class="pallet">
+                        <div class="pallet-text">Username: </div>
+                        <div class="u-color d-blue" value="mediumturquoise"></div>
+                        <div class="u-color d-orange" value="lightsalmon"></div>
+                        <div class="u-color d-green" value="chartreuse"></div>
+                        <div class="u-color d-pink" value="hotpink"></div>
+                        <div class="u-color d-gray color-selected" value="lightgray"></div>
+                    </div>
+                    <div class="pallet">
+                        <div class="pallet-text">Chat-text: </div>
+                        <div class="t-color d-blue" value="mediumturquoise"></div>
+                        <div class="t-color d-orange" value="lightsalmon"></div>
+                        <div class="t-color d-green" value="chartreuse"></div>
+                        <div class="t-color d-pink" value="hotpink"></div>
+                        <div class="t-color d-gray color-selected" value="lightgray"></div>
+                    </div>
+                    <div class="clear-button">clear</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <footer>
+        © 2019 | E. Lewis Lockhart | Springville, Utah
+    </footer> -->
+
+    <!-- ---- scripts ---- -->
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- firebase -->
+    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-database.js"></script>
+    <!-- local -->
+    <script src="assets/js/app.js"></script>
+</body>
+
+</html>

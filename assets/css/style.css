@@ -1,0 +1,165 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: black;
+    color: chartreuse;
+}
+
+p {
+    text-shadow: 0 0 5px #222;
+}
+
+input {
+    width: 100%;
+    margin: 8px 0 8px 0;
+    padding: 5px 5px 5px 5px;
+    font-weight: bolder;
+    background-color: #444;
+    color: mediumturquoise;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+h1 {
+    font-size: 22px;
+    letter-spacing: 2.2px;
+}
+
+h3 {
+    padding: 5px 0 5px 0;
+}
+
+.main {
+    max-width: 700px;
+    margin: auto;
+    margin-top: 40px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.hide {
+    display: none;
+}
+
+.unhide {
+    display: block;
+}
+
+.chat-div {
+    width: 100%;
+    height: 200px;
+    padding: 5px;
+    background-color: #444;
+    overflow: auto;
+    display: flex;
+    flex-direction: column-reverse;
+    overflow-wrap: break-word;
+}
+
+.message {
+    color: mediumturquoise;
+}
+
+.btn {
+    color: white;
+    font-weight: bolder;
+    padding: 5px;
+    width: 75px;
+    color: black;
+    background-color: chartreuse;
+    text-align: center;
+    cursor: pointer;
+    letter-spacing: 1.4px;
+    float: left;
+    display: flex;
+}
+
+.clear-button {
+    float: right;
+    padding: 5px;
+    color: black;
+    background-color: #444;
+    text-align: center;
+    cursor: pointer;
+}
+
+.name {
+    font-weight: bold;
+    font-size: small;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-bottom: 5px;
+}
+
+.options {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.pallet {
+    background-color: #444;
+    display: flex;
+    padding: 6px;
+}
+
+.u-color,
+.t-color {
+    width: 16px;
+    height: 16px;
+    background-color: darkorange;
+    display: flex;
+    justify-content: space-evenly;
+    margin: 0 4px 0 4px;
+    cursor: pointer;
+}
+
+.d-orange {
+    background-color: lightsalmon;
+}
+
+.d-blue {
+    background-color: mediumturquoise;
+}
+
+.d-green {
+    background-color: chartreuse;
+}
+
+.d-pink {
+    background-color: hotpink;
+}
+
+.d-gray {
+    background-color: gray;
+}
+
+.color-selected {
+    border: 2px solid white;
+}
+
+.battle-area {
+    background-color: #444;
+    margin-bottom: 18px;
+    width: 100%;
+    min-height: 200px;
+}
+
+.battle-stats {
+    width: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    margin: 15px 0 15px 0;
+}
+
+.wins-left {
+    display: flex;
+}
+
+.total-battles {
+    display: flex;
+}
+
+.wins-right {
+    display: flex;
+}
