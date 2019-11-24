@@ -14,8 +14,22 @@ firebase.initializeApp(firebaseConfig);
 let db = firebase.database();
 
 // *************************************************** //
+// battle card states object used for user-feedback on the battelground
+let battleCard = {
+    waiting_l  : "<div class='card-text'><- waiting</div>",
+    waiting_r  : "<div class='card-text'>waiting -></div>",
+    ready_l    : "<div class='card-text'>ready -></div>",
+    ready_r    : "<div class='card-text'><- ready</div>",
+    rock     : "<i class='fas fa-hand-rock t-orange b-card'></i>",
+    paper    : "<i class='fas fa-hand-rock t-blue b-card'></i>",
+    scissors : "<i class='fas fa-hand-rock t-pink b-card'></i>"
+}
 
+// runs js after document loads
 $(document).ready(function () {
+
+    $(".b-left").html(battleCard.waiting_l);
+    $(".b-right").html(battleCard.waiting_r);
 
     // grabs chat data - listens for changes to data
     db.ref("chat/").on("child_added", function (snapshot) {

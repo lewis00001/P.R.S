@@ -24,6 +24,7 @@ input {
 h1 {
     font-size: 22px;
     letter-spacing: 2.2px;
+    text-align: center;
 }
 
 h3 {
@@ -171,8 +172,31 @@ h3 {
     background-color: #444;
     margin-bottom: 18px;
     width: 100%;
-    min-height: 220px;
     padding: 6px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.battle-ground {
+    width: 100%;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 4px;
+    background-color: black;
+}
+
+.battle-text {
+    width: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+    letter-spacing: 1.3px;
+    padding: 8px;
+    text-align: center;
+}
+
+.rps-battle-div {
+    display: flex;
+    justify-content: space-around;
 }
 
 .battle-stats {
@@ -183,12 +207,20 @@ h3 {
     margin: 15px 0 15px 0;
 }
 
+.b-left,
+.b-right {
+    width: 120px;
+    height: 120px;
+    background-color: #444;
+    float: left;
+}
+
 .wins-left {
     display: flex;
 }
 
 .player-left {
-    float: left;
+    display: flex;
 }
 
 .total-battles {
@@ -200,7 +232,7 @@ h3 {
 }
 
 .player-right {
-    float: right;
+    display: flex;
 }
 
 .slot {
@@ -238,8 +270,29 @@ h3 {
     padding: 10px;
 }
 
+.b-card {
+    font-size: 50px;
+    margin: auto;
+}
+
+.card-text {
+    padding: 5px;
+    font-size: 18px;
+    text-align: center;
+    margin: auto;
+    padding-top: 40%;
+}
+
 .clearfix::after {
     content: "";
     clear: both;
     display: table;
+  }
+
+  .countdown-timer {
+      margin: auto 0 auto 0;
+      font-size: 50px;
+      color: gray;
+      width: 80px;
+      text-align: center;
   }
