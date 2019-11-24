@@ -30,11 +30,11 @@ $(document).ready(function () {
 
     let username = "";
     // click to get username
-    $(".username-button").on("click", function (event) {
-        if ($(".username-input").val().trim() === "") {
-            $(".name-enter-prompt").text("Please enter a valid username");
+    $(".visitor-username-button").on("click", function (event) {
+        if ($(".visitor-username-input").val().trim() === "") {
+            $(".visitor-enter-prompt").text("Please enter a valid username");
         } else {
-            username = $(".username-input").val().trim();
+            username = $(".visitor-username-input").val().trim();
             $(".screen").toggleClass("hide unhide");
             $(".greeting").html("<h3>Greetings " + username + "!</h3>");
         }

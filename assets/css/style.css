@@ -163,3 +163,8 @@ h3 {
 .wins-right {
     display: flex;
 }
+
+.slot {
+    min-height: 120px;
+    margin-bottom: 20px;
+}

@@ -17,11 +17,26 @@
         <h1 class="main-title">Paper :: Rock :: Scissors</h1>
         <hr>
         <div class="container-1 screen unhide">
-            <!-- username setup -->
-            <h3 class="name-enter-prompt">Enter your username below:</h3>
-            <input class="username-input" placeholder="username"></input>
-            <div class="username-button btn">Submit</div>
+            <!-- player slot - left -->
+            <div class="slot">
+                <h3 class="name-enter-prompt">Player Slot - Left:</h3>
+                <input class="username-input" placeholder="username"></input>
+                <div class="username-button btn">Submit</div>
+            </div>
+            <!-- player slot - right -->
+            <div class="slot">
+                <h3 class="name-enter-prompt">Player Slot - Right:</h3>
+                <input class="username-input" placeholder="username"></input>
+                <div class="username-button btn">Submit</div>
+            </div>
+            <!-- visitor setup -->
+            <div class="slot">
+                <h3 class="visitor-enter-prompt">Visitor Slot:</h3>
+                <input class="visitor-username-input" placeholder="username"></input>
+                <div class="visitor-username-button btn">Submit</div>
+            </div>
         </div>
+
         <div class="container-2 screen hide">
 
             <!-- ----- battle area ----- -->
@@ -30,7 +45,6 @@
                 <div class="total-battles">Total Games:</div>
                 <div class="wins-right">Wins:</div>
             </div>
-
             <div class="battle-area">
                 <div class="player-left">
                     <div class="player-left-title"></div>
