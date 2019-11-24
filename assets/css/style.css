@@ -127,20 +127,40 @@ h3 {
     background-color: lightsalmon;
 }
 
+.t-orange {
+    color: lightsalmon;
+}
+
 .d-blue {
     background-color: mediumturquoise;
+}
+
+.t-blue {
+    color: mediumturquoise;
 }
 
 .d-green {
     background-color: chartreuse;
 }
 
+.t-green {
+    color: chartreuse;
+}
+
 .d-pink {
     background-color: hotpink;
 }
 
+.t-pink {
+    color: hotpink;
+}
+
 .d-gray {
     background-color: gray;
+}
+
+.t-gray {
+    color: gray;
 }
 
 .color-selected {
@@ -151,7 +171,8 @@ h3 {
     background-color: #444;
     margin-bottom: 18px;
     width: 100%;
-    min-height: 200px;
+    min-height: 220px;
+    padding: 6px;
 }
 
 .battle-stats {
@@ -166,12 +187,20 @@ h3 {
     display: flex;
 }
 
+.player-left {
+    float: left;
+}
+
 .total-battles {
     display: flex;
 }
 
 .wins-right {
     display: flex;
+}
+
+.player-right {
+    float: right;
 }
 
 .slot {
@@ -199,3 +228,18 @@ h3 {
 .right-status {
     font-weight: 900;
 }
+
+.rpc-icon {
+    font-size: 20px;
+    text-align: center;
+    margin: 4px;
+    background-color: black;
+    width: 120px;
+    padding: 10px;
+}
+
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
