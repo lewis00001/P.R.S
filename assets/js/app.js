@@ -16,20 +16,19 @@ let db = firebase.database();
 // *************************************************** //
 // battle card states object used for user-feedback on the battelground
 let battleCard = {
-    waiting_l  : "<div class='card-text'><- waiting</div>",
-    waiting_r  : "<div class='card-text'>waiting -></div>",
-    ready_l    : "<div class='card-text'>ready -></div>",
-    ready_r    : "<div class='card-text'><- ready</div>",
-    rock     : "<i class='fas fa-hand-rock t-orange b-card'></i>",
-    paper    : "<i class='fas fa-hand-rock t-blue b-card'></i>",
-    scissors : "<i class='fas fa-hand-rock t-pink b-card'></i>"
-}
+    waiting: "<div class='card-text'>waiting for selection</div>",
+    ready: "<div class='card-text'>Ready for Battle</div>",
+    rock: "<i class='fas fa-hand-rock t-orange b-card'></i>",
+    paper: "<i class='fas fa-hand-paper t-blue b-card'></i>",
+    scissors: "<i class='fas fa-hand-scissors t-pink b-card'></i>"
+};
 
 // runs js after document loads
 $(document).ready(function () {
 
-    $(".b-left").html(battleCard.waiting_l);
-    $(".b-right").html(battleCard.waiting_r);
+    // set battle card defaults
+    $(".b-left").html(battleCard.waiting);
+    $(".b-right").html(battleCard.waiting);
 
     // grabs chat data - listens for changes to data
     db.ref("chat/").on("child_added", function (snapshot) {
@@ -71,17 +70,103 @@ $(document).ready(function () {
         }
     });
 
-    let username = "";
-    // click to get username
+    let _username = "";
+    // visitor login
     $(".visitor-username-button").on("click", function (event) {
         if ($(".visitor-username-input").val().trim() === "") {
-            $(".visitor-enter-prompt").text("Please enter a valid username");
+            $(".visitor-enter-prompt").html(
+                "<div class='t-orange'>Visitor Slot: Please enter a valid username</div>");
         } else {
-            username = $(".visitor-username-input").val().trim();
+            // sets username in game area
+            setNamesInGameArea();
+
+            _username = $(".visitor-username-input").val().trim();
             $(".screen").toggleClass("hide unhide");
-            $(".greeting").html("<h3>Greetings " + username + "!</h3>");
+            $(".user-login-status").html(
+                _username + "(visitor) :: <span class='t-pink exit'>Exit</span>");
+            $(".rps-icon").removeClass("pl-btn pr-btn t-orange t-blue t-pink");
+            $(".rps-icon").addClass("t-gray");
         }
     });
+    // left-side player login
+    $(".left-username-button").on("click", function (event) {
+        // checks for valid input
+        if ($(".left-username-input").val().trim() === "") {
+            $(".left-enter-prompt").html(
+                "<div class='t-orange'>Player Slot - Left: Please enter a valid username</div>");
+        } else {
+            // sets username
+            _username = $(".left-username-input").val().trim();
+            // update db with player login info
+            db.ref().child("playerSlotLeft").update({
+                isTaken: true,
+                username: _username
+            });
+            // moves user to screen 2 (game / chat)
+            $(".screen").toggleClass("hide unhide");
+            // sets username in game area
+            setNamesInGameArea();
+            // set username on chat area
+            $(".user-login-status").html(
+                _username + "(PL Slot) :: <span class='t-pink exit'>Exit</span>");
+            // grays and disables right side player buttons 
+            $(".r-btn").removeClass("pr-btn t-orange t-blue t-pink");
+            $(".r-btn").addClass("t-gray");
+        }
+        // reset data on disconnect
+        db.ref("playerSlotLeft").onDisconnect().update({
+            isTaken: false,
+            prsChoice: "",
+            username: "",
+            wins: 0
+        });
+    });
+
+    // right-side player login
+    $(".right-username-button").on("click", function (event) {
+        // checks for valid input
+        if ($(".right-username-input").val().trim() === "") {
+            $(".right-enter-prompt").html(
+                "<div class='t-orange'>Player Slot - Right: Please enter a valid username</div>");
+        } else {
+            // sets username
+            _username = $(".right-username-input").val().trim();
+            // update db with player login info
+            db.ref().child("playerSlotRight").update({
+                isTaken: true,
+                username: _username
+            });
+            // moves user to screen 2 (game / chat)
+            $(".screen").toggleClass("hide unhide");
+            // sets username in game area
+            setNamesInGameArea();
+            // set username on chat area
+            $(".user-login-status").html(
+                _username + "(PR Slot) :: <span class='t-pink exit'>Exit</span>");
+            // grays and disables right side player buttons 
+            $(".l-btn").removeClass("pl-btn t-orange t-blue t-pink");
+            $(".l-btn").addClass("t-gray");
+        }
+        // reset data on disconnect
+        db.ref("playerSlotRight").onDisconnect().update({
+            isTaken: false,
+            prsChoice: "",
+            username: "",
+            wins: 0
+        });
+    });
+
+    // displays names for right and left side players from the db 
+    function setNamesInGameArea() {
+        db.ref("playerSlotLeft").on("value", function (snapshot) {
+            let db_username = snapshot.child("username").val();
+            $(".player-l-username").text(db_username);
+        });
+        db.ref("playerSlotRight").on("value", function (snapshot) {
+            let db_username = snapshot.child("username").val();
+            $(".player-r-username").text(db_username);
+        });
+    }
 
     // click to send a chat
     $(".enter-chat-button").on("click", function (event) {
@@ -107,7 +192,7 @@ $(document).ready(function () {
         let chatOut = $(".chat-input").val().trim();
         // sent chat to db
         db.ref("chat/" + Date.now()).set({
-            name: username,
+            name: _username,
             message: chatOut,
             uColor: uColorValue,
             tColor: tColorValue
@@ -122,7 +207,6 @@ $(document).ready(function () {
         // client side clear
         $(".chat-output").html("");
     });
-
 
     let uColorValue = "lightgray";
     // process username color selection
@@ -144,5 +228,10 @@ $(document).ready(function () {
         $(this).addClass("color-selected");
         // preps for db
         tColorValue = $(this).attr("value");
+    });
+
+    // user program exit
+    $(document).on("click", ".exit", function () {
+        location.reload();
     });
 });

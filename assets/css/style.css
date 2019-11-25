@@ -22,7 +22,7 @@ input {
 }
 
 h1 {
-    font-size: 22px;
+    font-size: 32px;
     letter-spacing: 2.2px;
     text-align: center;
 }
@@ -201,10 +201,11 @@ h3 {
 
 .battle-stats {
     width: 100%;
+    font-size: 22px;
     text-align: center;
     display: flex;
     justify-content: space-between;
-    margin: 15px 0 15px 0;
+    margin: 5px 0 15px 0;
 }
 
 .b-left,
@@ -261,7 +262,7 @@ h3 {
     font-weight: 900;
 }
 
-.rpc-icon {
+.rps-icon {
     font-size: 20px;
     text-align: center;
     margin: 4px;
@@ -270,9 +271,25 @@ h3 {
     padding: 10px;
 }
 
+.pl-btn {
+    cursor: pointer;
+}
+
+.pl-btn:hover {
+    background-color: #333;
+}
+
+.pr-btn {
+    cursor: pointer;
+}
+
+.pr-btn:hover {
+    background-color: #333;
+}
+
 .b-card {
-    font-size: 50px;
-    margin: auto;
+    font-size: 90px;
+    padding: 15px;
 }
 
 .card-text {
@@ -280,19 +297,52 @@ h3 {
     font-size: 18px;
     text-align: center;
     margin: auto;
-    padding-top: 40%;
+    padding-top: 30%;
+}
+
+.flip {
+    -webkit-transform: rotateY(180deg);
 }
 
 .clearfix::after {
     content: "";
     clear: both;
     display: table;
-  }
+}
 
-  .countdown-timer {
-      margin: auto 0 auto 0;
-      font-size: 50px;
-      color: gray;
-      width: 80px;
-      text-align: center;
-  }
+.countdown-timer {
+    margin: auto 0 auto 0;
+    font-size: 50px;
+    color: gray;
+    width: 80px;
+    text-align: center;
+}
+
+.active-players {
+    height: 24px;
+    width: 100%;
+    font-size: 22px;
+    margin-top: 10px;
+}
+
+.player-l-username {
+    float: left;
+}
+
+.player-r-username {
+    float: right;
+}
+
+.chat-heading {
+    display: flex;
+    justify-content: space-between;
+}
+
+.user-login-status {
+    color: mediumturquoise;
+}
+
+.exit {
+    text-decoration: underline;
+    cursor: pointer;
+}
