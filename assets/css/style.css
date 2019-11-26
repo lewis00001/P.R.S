@@ -346,3 +346,8 @@ h3 {
     text-decoration: underline;
     cursor: pointer;
 }
+
+.all-time-game-count {
+    color: #555;
+    text-align: center;
+}

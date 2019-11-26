@@ -26,9 +26,15 @@ let battleCard = {
 // runs js after document loads
 $(document).ready(function () {
 
-    // set battle card defaults
-    $(".b-left").html(battleCard.waiting);
-    $(".b-right").html(battleCard.waiting);
+    // set battle card status
+    db.ref("playerSlotLeft/battleCardStatus").on("value", function (snapshot) {
+        let update = snapshot.val();
+        $(".b-left").html(update);
+    });
+    db.ref("playerSlotRight/battleCardStatus").on("value", function (snapshot) {
+        let update = snapshot.val();
+        $(".b-right").html(update);
+    });
 
     // grabs chat data - listens for changes to data
     db.ref("chat/").on("child_added", function (snapshot) {
@@ -116,6 +122,7 @@ $(document).ready(function () {
         // reset data on disconnect
         db.ref("playerSlotLeft").onDisconnect().update({
             isTaken: false,
+            battleCardStatus: battleCard.waiting,
             prsChoice: "",
             username: "",
             wins: 0
@@ -150,7 +157,8 @@ $(document).ready(function () {
         // reset data on disconnect
         db.ref("playerSlotRight").onDisconnect().update({
             isTaken: false,
-            prsChoice: "",
+            battleCardStatus: battleCard.waiting,
+            rpsChoice: "",
             username: "",
             wins: 0
         });
@@ -234,4 +242,75 @@ $(document).ready(function () {
     $(document).on("click", ".exit", function () {
         location.reload();
     });
+
+    // battle logic //
+
+    // update total ever game count
+    db.ref("allTimeRPScount").on("value", function (snapshot) {
+        let count = snapshot.val();
+        $("#all-time-game-count").text(count);
+    });
+
+    // keeps only the selected color, grays the others
+    function isolateSelection(vOf, iClass) {
+        $(iClass).each(function () {
+            if ($(this).attr("value") !== vOf) {
+                $(this).removeClass("t-orange t-blue t-pink");
+                $(this).addClass("t-gray");
+            }
+        });
+    }
+
+    // left side player selection
+    let l_selectionMade = false;
+    $(".l-btn").on("click", function (event) {
+        if (l_selectionMade === false) {
+            // get the value of the clicked button
+            let valueOf = $(this).attr("value");
+            let sClass = ".l-btn";
+            // update db with player selection
+            db.ref().child("playerSlotLeft").update({
+                rpsChoice: valueOf
+            });
+            isolateSelection(valueOf, sClass);
+            l_selectionMade = true;
+            // update card status in db
+            db.ref().child("playerSlotLeft").update({
+                battleCardStatus: battleCard.ready
+            });
+        }
+    });
+
+    // right side player selection
+    let r_selectionMade = false;
+    $(".r-btn").on("click", function (event) {
+        if (r_selectionMade === false) {
+            // get the value of the clicked button
+            let valueOf = $(this).attr("value");
+            let sClass = ".r-btn";
+            // update db with player selection
+            db.ref().child("playerSlotRight").update({
+                rpsChoice: valueOf
+            });
+            isolateSelection(valueOf, sClass);
+            r_selectionMade = true;
+            // update card status in db
+            db.ref().child("playerSlotRight").update({
+                battleCardStatus: battleCard.ready
+            });
+        }
+    });
+
+    // run battle sequence 
+    
+
+    // reset data on game round complete
+    // db.ref("playerSlotRight").onDisconnect().update({
+    //     isTaken: false,
+    //     battleCardStatus: battleCard.waiting,
+    //     rpsChoice: "",
+    //     username: "",
+    //     wins: 0
+    // });
+
 });
