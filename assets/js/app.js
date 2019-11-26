@@ -123,7 +123,7 @@ $(document).ready(function () {
         db.ref("playerSlotLeft").onDisconnect().update({
             isTaken: false,
             battleCardStatus: battleCard.waiting,
-            prsChoice: "",
+            rpsChoice: "",
             username: "",
             wins: 0
         });
@@ -278,6 +278,10 @@ $(document).ready(function () {
             db.ref().child("playerSlotLeft").update({
                 battleCardStatus: battleCard.ready
             });
+            // prompt battle
+            db.ref().update({
+                startBattle: 1
+            });
         }
     });
 
@@ -298,13 +302,26 @@ $(document).ready(function () {
             db.ref().child("playerSlotRight").update({
                 battleCardStatus: battleCard.ready
             });
+            // prompt battle
+            db.ref().update({
+                startBattle: 0
+            });
         }
     });
 
     // run battle sequence 
-    
+    let l_status;
+    let r_status;
+    db.ref("playerSlotLeft/rpsChoice").on("value", function (snapshot) {
+        l_status = snapshot.val();
+        console.log(l_status);
+    });
+    db.ref("playerSlotRight/rpsChoice").on("value", function (snapshot) {
+        r_status = snapshot.val();
+        console.log(r_status);
+    });
 
-    // reset data on game round complete
+
     // db.ref("playerSlotRight").onDisconnect().update({
     //     isTaken: false,
     //     battleCardStatus: battleCard.waiting,
