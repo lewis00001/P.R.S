@@ -302,10 +302,6 @@ $(document).ready(function () {
             db.ref().child("playerSlotRight").update({
                 battleCardStatus: battleCard.ready
             });
-            // prompt battle
-            db.ref().update({
-                startBattle: 0
-            });
         }
     });
 
@@ -314,20 +310,30 @@ $(document).ready(function () {
     let r_status;
     db.ref("playerSlotLeft/rpsChoice").on("value", function (snapshot) {
         l_status = snapshot.val();
-        console.log(l_status);
+        battleSequence();
     });
     db.ref("playerSlotRight/rpsChoice").on("value", function (snapshot) {
         r_status = snapshot.val();
-        console.log(r_status);
+        battleSequence();
     });
 
-
-    // db.ref("playerSlotRight").onDisconnect().update({
-    //     isTaken: false,
-    //     battleCardStatus: battleCard.waiting,
-    //     rpsChoice: "",
-    //     username: "",
-    //     wins: 0
-    // });
-
+    function battleSequence() {
+        if (l_status !== "" && r_status !== "") {
+            let i = 3;
+            let sInt = setInterval(function () {
+                $(".countdown-timer").text(i);
+                if (i > 0) {
+                    i--;
+                }
+            }, 1000);
+            if (i <= 0) {
+                clearInterval(sInt);
+                if(l_status == "rock") {
+                    console.log(l_status);
+                    console.log(battleCard.rock);
+                    $(".b-left").html(battleCard.rock);
+                }
+            }
+        }
+    }
 });
