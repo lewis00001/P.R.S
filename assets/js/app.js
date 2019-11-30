@@ -321,9 +321,9 @@ $(document).ready(function () {
         if (l_status !== "" && r_status !== "") {
             let i = 3;
             let sInt = setInterval(function () {
+                $(".countdown-timer").text(i);
                 updateBattleCards(i, sInt);
                 processWin(i);
-                $(".countdown-timer").text(i);
                 if (i > 0) {
                     i--;
                 }
@@ -359,39 +359,91 @@ $(document).ready(function () {
 
     function processWin(iValue) {
         if (iValue <= 0) {
-            if (l_status === "rock" && r_status === "rock"  ||
-                l_status === "paper" && r_status === "paper"  ||
+            if (l_status === "rock" && r_status === "rock" ||
+                l_status === "paper" && r_status === "paper" ||
                 l_status === "scissors" && r_status === "scissors"
-                ) {
+            ) {
                 $(".battle-feedback").text("It was a tie!");
                 playAgain();
             }
             if (l_status === "rock" && r_status === "paper") {
                 $(".battle-feedback").text("paper covers rock");
                 $(".b-right").addClass("b-win");
+                awardPointRight();
             }
             if (l_status === "rock" && r_status === "scissors") {
                 $(".battle-feedback").text("rock breaks scissors");
                 $(".b-left").addClass("b-win");
+                awardPointLeft();
             }
             if (l_status === "paper" && r_status === "rock") {
                 $(".battle-feedback").text("paper covers rock");
                 $(".b-left").addClass("b-win");
+                awardPointLeft();
             }
             if (l_status === "paper" && r_status === "scissors") {
                 $(".battle-feedback").text("scissors cut paper");
                 $(".b-right").addClass("b-win");
+                awardPointRight();
             }
             if (l_status === "scissors" && r_status === "rock") {
                 $(".battle-feedback").text("rock breaks scissors");
                 $(".b-right").addClass("b-win");
+                awardPointRight();
             }
             if (l_status === "scissors" && r_status === "paper") {
                 $(".battle-feedback").text("scissors cut paper");
                 $(".b-left").addClass("b-win");
+                awardPointLeft();
             }
         }
+    }
 
+    function awardPointLeft() {
+        let cLeftWins;
+        // get current wins value
+        db.ref("playerSlotLeft/wins").once("value", function (snapshot) {
+            cLeftWins = snapshot.val();
+        });
+        // set new wins value
+        db.ref("playerSlotLeft").update({
+            // script runs for both players so points are awarded twice
+            // this would be solved by running this function on the server.
+            // For now I need to process it on the frontend, so awarding
+            // 0.5 points from each player equates to 1 point
+            wins: (cLeftWins += 0.5)
+        });
+        setTimeout(function () {
+            // get new wins value
+            db.ref("playerSlotLeft/wins").once("value", function (snapshot) {
+                cLeftWins = snapshot.val();
+            });
+            $(".wins-output-left").text(cLeftWins);
+        }, 2000);
+    }
+
+    function awardPointRight() {
+        let cRightWins;
+        // get current wins value
+        db.ref("playerSlotRight/wins").once("value", function (snapshot) {
+            cRightWins = snapshot.val();
+        });
+        // set new wins value
+        db.ref("playerSlotRight").update({
+            // script runs for both players so points are awarded twice
+            // this would be solved by running this function on the server.
+            // For now I need to process it on the frontend, so awarding
+            // 0.5 points from each player equates to 1 point
+            wins: (cRightWins += 0.5)
+        });
+        // deplay ensures db updates before displaying point
+        setTimeout(function () {
+            // get new wins value
+            db.ref("playerSlotRight/wins").once("value", function (snapshot) {
+                cRightWins = snapshot.val();
+            });
+            $(".wins-output-right").text(cRightWins);
+        }, 2000);
     }
 
     function playAgain() {
