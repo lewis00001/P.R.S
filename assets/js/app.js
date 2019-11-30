@@ -321,19 +321,81 @@ $(document).ready(function () {
         if (l_status !== "" && r_status !== "") {
             let i = 3;
             let sInt = setInterval(function () {
+                updateBattleCards(i, sInt);
+                processWin(i);
                 $(".countdown-timer").text(i);
                 if (i > 0) {
                     i--;
                 }
             }, 1000);
-            if (i <= 0) {
-                clearInterval(sInt);
-                if(l_status == "rock") {
-                    console.log(l_status);
-                    console.log(battleCard.rock);
+        }
+    }
+
+    function updateBattleCards(iValue, interval) {
+        if (iValue <= 0) {
+            clearInterval(interval);
+            switch (l_status) {
+                case "rock":
                     $(".b-left").html(battleCard.rock);
-                }
+                    break;
+                case "paper":
+                    $(".b-left").html(battleCard.paper);
+                    break;
+                case "scissors":
+                    $(".b-left").html(battleCard.scissors);
+            }
+            switch (r_status) {
+                case "rock":
+                    $(".b-right").html(battleCard.rock);
+                    break;
+                case "paper":
+                    $(".b-right").html(battleCard.paper);
+                    break;
+                case "scissors":
+                    $(".b-right").html(battleCard.scissors);
             }
         }
     }
+
+    function processWin(iValue) {
+        if (iValue <= 0) {
+            if (l_status === "rock" && r_status === "rock"  ||
+                l_status === "paper" && r_status === "paper"  ||
+                l_status === "scissors" && r_status === "scissors"
+                ) {
+                $(".battle-feedback").text("It was a tie!");
+                playAgain();
+            }
+            if (l_status === "rock" && r_status === "paper") {
+                $(".battle-feedback").text("paper covers rock");
+                $(".b-right").addClass("b-win");
+            }
+            if (l_status === "rock" && r_status === "scissors") {
+                $(".battle-feedback").text("rock breaks scissors");
+                $(".b-left").addClass("b-win");
+            }
+            if (l_status === "paper" && r_status === "rock") {
+                $(".battle-feedback").text("paper covers rock");
+                $(".b-left").addClass("b-win");
+            }
+            if (l_status === "paper" && r_status === "scissors") {
+                $(".battle-feedback").text("scissors cut paper");
+                $(".b-right").addClass("b-win");
+            }
+            if (l_status === "scissors" && r_status === "rock") {
+                $(".battle-feedback").text("rock breaks scissors");
+                $(".b-right").addClass("b-win");
+            }
+            if (l_status === "scissors" && r_status === "paper") {
+                $(".battle-feedback").text("scissors cut paper");
+                $(".b-left").addClass("b-win");
+            }
+        }
+
+    }
+
+    function playAgain() {
+        console.log("play again called");
+    }
+
 });

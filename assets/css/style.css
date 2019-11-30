@@ -216,6 +216,10 @@ h3 {
     float: left;
 }
 
+.b-win {
+    border: 2px solid white;
+}
+
 .wins-left {
     display: flex;
 }
