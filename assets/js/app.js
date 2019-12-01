@@ -77,6 +77,10 @@ $(document).ready(function () {
     });
 
     let _username = "";
+    // l and r side used for playAgain
+    let l_side = false;
+    let r_side = false;
+
     // visitor login
     $(".visitor-username-button").on("click", function (event) {
         if ($(".visitor-username-input").val().trim() === "") {
@@ -94,6 +98,7 @@ $(document).ready(function () {
             $(".rps-icon").addClass("t-gray");
         }
     });
+
     // left-side player login
     $(".left-username-button").on("click", function (event) {
         // checks for valid input
@@ -118,6 +123,7 @@ $(document).ready(function () {
             // grays and disables right side player buttons 
             $(".r-btn").removeClass("pr-btn t-orange t-blue t-pink");
             $(".r-btn").addClass("t-gray");
+            l_side = true;
         }
         // reset data on disconnect
         db.ref("playerSlotLeft").onDisconnect().update({
@@ -153,7 +159,9 @@ $(document).ready(function () {
             // grays and disables right side player buttons 
             $(".l-btn").removeClass("pl-btn t-orange t-blue t-pink");
             $(".l-btn").addClass("t-gray");
+            r_side = true;
         }
+
         // reset data on disconnect
         db.ref("playerSlotRight").onDisconnect().update({
             isTaken: false,
@@ -244,13 +252,6 @@ $(document).ready(function () {
     });
 
     // battle logic //
-
-    // update total ever game count
-    db.ref("allTimeRPScount").on("value", function (snapshot) {
-        let count = snapshot.val();
-        $("#all-time-game-count").text(count);
-    });
-
     // keeps only the selected color, grays the others
     function isolateSelection(vOf, iClass) {
         $(iClass).each(function () {
@@ -264,7 +265,7 @@ $(document).ready(function () {
     // left side player selection
     let l_selectionMade = false;
     $(".l-btn").on("click", function (event) {
-        if (l_selectionMade === false) {
+        if (l_selectionMade === false && l_side === true) {
             // get the value of the clicked button
             let valueOf = $(this).attr("value");
             let sClass = ".l-btn";
@@ -278,17 +279,13 @@ $(document).ready(function () {
             db.ref().child("playerSlotLeft").update({
                 battleCardStatus: battleCard.ready
             });
-            // prompt battle
-            db.ref().update({
-                startBattle: 1
-            });
         }
     });
 
     // right side player selection
     let r_selectionMade = false;
     $(".r-btn").on("click", function (event) {
-        if (r_selectionMade === false) {
+        if (r_selectionMade === false && r_side === true) {
             // get the value of the clicked button
             let valueOf = $(this).attr("value");
             let sClass = ".r-btn";
@@ -364,6 +361,8 @@ $(document).ready(function () {
                 l_status === "scissors" && r_status === "scissors"
             ) {
                 $(".battle-feedback").text("It was a tie!");
+                updateATTGames();
+
                 playAgain();
             }
             if (l_status === "rock" && r_status === "paper") {
@@ -413,12 +412,15 @@ $(document).ready(function () {
             // 0.5 points from each player equates to 1 point
             wins: (cLeftWins += 0.5)
         });
+        updateATTGames();
+        // deplay - ensures db updates before displaying point
         setTimeout(function () {
             // get new wins value
             db.ref("playerSlotLeft/wins").once("value", function (snapshot) {
                 cLeftWins = snapshot.val();
             });
             $(".wins-output-left").text(cLeftWins);
+            playAgain();
         }, 2000);
     }
 
@@ -436,18 +438,95 @@ $(document).ready(function () {
             // 0.5 points from each player equates to 1 point
             wins: (cRightWins += 0.5)
         });
-        // deplay ensures db updates before displaying point
+        updateATTGames();
+        // deplay - ensures db updates before displaying point
         setTimeout(function () {
             // get new wins value
             db.ref("playerSlotRight/wins").once("value", function (snapshot) {
                 cRightWins = snapshot.val();
             });
             $(".wins-output-right").text(cRightWins);
+            playAgain();
         }, 2000);
     }
 
-    function playAgain() {
-        console.log("play again called");
+    // updates total games - really should be a backend function
+    // this is a horrible workround
+    function updateATTGames() {
+        let attGames;
+        let tGames;
+        // get total game value
+        db.ref("allTimeRPScount").once("value", function (snapshot) {
+            attGames = snapshot.val();
+        });
+        db.ref("RPScount").once("value", function (snapshot) {
+            tGames = snapshot.val();
+        });
+        // the delay ensures db is updated
+        setTimeout(function () {
+            attGames += 1;
+            tGames += 1;
+            db.ref().update({
+                allTimeRPScount: attGames
+            });
+            db.ref().update({
+                RPScount: tGames
+            });
+            setTimeout(function () {
+                // get total game value
+                db.ref("allTimeRPScount").once("value", function (snapshot) {
+                    attGames = snapshot.val();
+                });
+                db.ref("RPScount").once("value", function (snapshot) {
+                    tGames = snapshot.val();
+                });
+                setTimeout(function () {
+                    $(".all-time-game-count").text("Total Games Ever Played: " + attGames);
+                    $(".total-games-output").text(tGames);
+                }, 1500);
+            }, 1500);
+        }, 1500);
     }
 
+    // generates the playAgain button
+    function playAgain() {
+        $(".countdown-timer").html("<div class='countdown-timer-button'>PLAY AGAIN</div>");
+    }
+
+    // starts a new round
+    $(document).on("click", ".countdown-timer-button", function () {
+        db.ref().update({
+            playAgain: true
+        });
+    });
+    db.ref("playAgain").on("value", function (snapshot) {
+        if (snapshot.val() === true) {
+            $(".countdown-timer").html("VS");
+            $(".b-left").removeClass("b-win");
+            $(".b-right").removeClass("b-win");
+            db.ref("playerSlotLeft").update({
+                battleCardStatus: battleCard.waiting,
+                rpsChoice: ""
+            });
+            db.ref("playerSlotRight").update({
+                battleCardStatus: battleCard.waiting,
+                rpsChoice: ""
+            });
+            l_selectionMade = false;
+            r_selectionMade = false;
+            db.ref().update({
+                playAgain: false
+            });
+        }
+        if (l_side === true) {
+            $(".t-o-l").removeClass("t-gray").addClass("t-orange");
+            $(".t-b-l").removeClass("t-gray").addClass("t-blue");
+            $(".t-p-l").removeClass("t-gray").addClass("t-pink");
+        }
+        if (r_side === true) {
+            $(".t-o-r").removeClass("t-gray").addClass("t-orange");
+            $(".t-b-r").removeClass("t-gray").addClass("t-blue");
+            $(".t-p-r").removeClass("t-gray").addClass("t-pink");
+        }
+    });
 });

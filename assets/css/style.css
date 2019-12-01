@@ -164,6 +164,10 @@ h3 {
     color: gray;
 }
 
+.t-gray-light {
+    color: rgb(180, 180, 180);
+}
+
 .color-selected {
     border: 2px solid white;
 }
@@ -317,9 +321,20 @@ h3 {
 .countdown-timer {
     margin: auto 0 auto 0;
     font-size: 50px;
-    color: gray;
     width: 80px;
     text-align: center;
+}
+
+.countdown-timer-button {
+    font-size: 20px;
+    width: 80px;
+    text-align: center;
+    border: 1px solid gray;
+    padding: 10px;
+    cursor: pointer;
+}
+.countdown-timer-button:hover {
+    background-color: #333;
 }
 
 .active-players {
@@ -352,6 +367,5 @@ h3 {
 }
 
 .all-time-game-count {
-    color: #555;
     text-align: center;
 }
