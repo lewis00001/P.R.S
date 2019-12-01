@@ -135,6 +135,34 @@ $(document).ready(function () {
         });
     });
 
+    // reset RPScount and remaining player wins, if a player disconnects
+    db.ref("playerSlotLeft/isTaken").on("value", function (snapshot) {
+        let l_isTaken = snapshot;
+        let l_ = l_isTaken.val();
+        if (l_ === false) {
+            db.ref().update({
+                RPScount: 0
+            });
+            db.ref("playerSlotRight").update({
+                wins: 0
+            });
+        }
+    });
+    
+    // reset RPScount and remaining player wins, if a player disconnects
+    db.ref("playerSlotRight/isTaken").on("value", function (snapshot) {
+        let r_isTaken = snapshot;
+        let r_ = r_isTaken.val();
+        if (r_ === false) {
+            db.ref().update({
+                RPScount: 0
+            });
+            db.ref("playerSlotLeft").update({
+                wins: 0
+            });
+        }
+    });
+
     // right-side player login
     $(".right-username-button").on("click", function (event) {
         // checks for valid input
@@ -528,5 +556,12 @@ $(document).ready(function () {
             $(".t-b-r").removeClass("t-gray").addClass("t-blue");
             $(".t-p-r").removeClass("t-gray").addClass("t-pink");
         }
+        // verifies game count in case a user has left
+        db.ref("RPScount").once("value", function (snapshot) {
+            vUpdate = snapshot.val();
+        });
+        setTimeout(function () {
+            $(".total-games-output").text(vUpdate);
+        }, 1500);
     });
 });
