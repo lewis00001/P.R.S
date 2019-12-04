@@ -433,13 +433,11 @@ $(document).ready(function () {
             cLeftWins = snapshot.val();
         });
         // set new wins value
-        db.ref("playerSlotLeft").update({
-            // script runs for both players so points are awarded twice
-            // this would be solved by running this function on the server.
-            // For now I need to process it on the frontend, so awarding
-            // 0.5 points from each player equates to 1 point
-            wins: (cLeftWins += 0.5)
-        });
+        if (l_side === true) {
+            db.ref("playerSlotLeft").update({
+                wins: (cLeftWins += 1)
+            });
+        }
         updateATTGames();
         // deplay - ensures db updates before displaying point
         setTimeout(function () {
@@ -459,13 +457,11 @@ $(document).ready(function () {
             cRightWins = snapshot.val();
         });
         // set new wins value
-        db.ref("playerSlotRight").update({
-            // script runs for both players so points are awarded twice
-            // this would be solved by running this function on the server.
-            // For now I need to process it on the frontend, so awarding
-            // 0.5 points from each player equates to 1 point
-            wins: (cRightWins += 0.5)
-        });
+        if (r_side === true) {
+            db.ref("playerSlotRight").update({
+                wins: (cRightWins += 1)
+            });
+        }
         updateATTGames();
         // deplay - ensures db updates before displaying point
         setTimeout(function () {
