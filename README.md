@@ -5,5 +5,5 @@ This rock, paper, scissors game allows two players to lock in a position while o
 https://lewis00001.github.io/P.R.S/
 
 ## Screenshots
-![game ui](assest/images/screenshot1.png)
-![game ui](assest/images/screenshot2.png)
+![game ui](assest/images/screenshot1.PNG)
+![game ui](assest/images/screenshot2.PNG)
